@@ -22,22 +22,22 @@ public class BasicJob {
     private final StepBuilderFactory stepBuilderFactory;
 
 //    @Bean
-//    public Job basicJobJob() {
-//        return jobBuilderFactory.get("basicJob")
-//                .start(basicJobStep())
-////                .validator(new ParameterValidator())
-//                .validator(new DefaultJobParametersValidator(new String[]{"name"}, new String[]{"age"}))
-//                .build();
-//    }
-//
-//    @Bean
-//    public Step basicJobStep() {
-//        return stepBuilderFactory.get("basicStep")
-//                .tasklet((contribution, chunkContext) -> {
-//                    Map<String, Object> jobParameters = chunkContext.getStepContext().getJobParameters();
-//                    System.out.println(String.format("Hello, %s, World", jobParameters.get("name")));
-//                    return RepeatStatus.FINISHED;
-//                })
-//                .build();
-//    }
+    public Job basicJobJob() {
+        return jobBuilderFactory.get("basicJob")
+                .start(basicJobStep())
+//                .validator(new ParameterValidator())
+                .validator(new DefaultJobParametersValidator(new String[]{"name"}, new String[]{"age"}))
+                .build();
+    }
+
+    @Bean
+    public Step basicJobStep() {
+        return stepBuilderFactory.get("basicStep")
+                .tasklet((contribution, chunkContext) -> {
+                    Map<String, Object> jobParameters = chunkContext.getStepContext().getJobParameters();
+                    System.out.println(String.format("Hello, %s, World", jobParameters.get("name")));
+                    return RepeatStatus.FINISHED;
+                })
+                .build();
+    }
 }
