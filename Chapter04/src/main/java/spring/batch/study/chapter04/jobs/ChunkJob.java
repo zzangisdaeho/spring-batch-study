@@ -5,6 +5,7 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.listener.StepListenerFactoryBean;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.support.ListItemReader;
 import org.springframework.batch.repeat.CompletionPolicy;
@@ -14,7 +15,12 @@ import org.springframework.batch.repeat.policy.TimeoutTerminationPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import spring.batch.study.chapter04.jobs.chunk_completion_policy.RandomChunkSizePolicy;
+import spring.batch.study.chapter04.jobs.chunk_listener.ChunkLoggerListener;
+import spring.batch.study.chapter04.jobs.chunk_listener.ChunkLoggerListenerWithAnnotation;
 import spring.batch.study.chapter04.jobs.parameter_incrementor.DailyJobTimeStamper;
+import spring.batch.study.chapter04.jobs.step_listener.StepLoggerListener;
+import spring.batch.study.chapter04.jobs.step_listener.StepLoggerListenerWithAnnotation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +41,7 @@ public class ChunkJob {
 
     private AtomicInteger chunkNum = new AtomicInteger(1);
 
-    @Bean
+//    @Bean
     public Job chunkBasedJob() {
         return this.jobBuilderFactory.get("chunkBasedJob")
                 .start(chunkStep())
@@ -47,10 +53,14 @@ public class ChunkJob {
     public Step chunkStep() {
         return this.stepBuilderFactory.get("chunkStep")
 //				.<String, String>chunk(100)
-                .<String, String>chunk(completionPolicy())
+//                .<String, String>chunk(completionPolicy())
+                .<String, String>chunk(new RandomChunkSizePolicy())
                 .reader(itemReader())
                 .writer(itemWriter())
-//				.listener(new LoggingStepStartStopListener())
+//				.listener(new StepLoggerListener())
+				.listener(new StepLoggerListenerWithAnnotation())
+//                .listener(new ChunkLoggerListener())
+                .listener(new ChunkLoggerListenerWithAnnotation())
                 .build();
     }
 
@@ -65,9 +75,9 @@ public class ChunkJob {
     public ItemWriter<String> itemWriter() {
         return items -> {
 //            items.forEach(log::info);
-            items.forEach(System.out::println);
-            log.info("==========chunked items size {}===========", items.size());
-            log.info("==========chunk finish {}===========", chunkNum.getAndIncrement());
+//            items.forEach(System.out::println);
+            log.info("==========chunked item size : {}===========", items.size());
+            log.info("==========chunk num : {}===========", chunkNum.getAndIncrement());
         };
     }
 

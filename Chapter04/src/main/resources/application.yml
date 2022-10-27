@@ -7,7 +7,8 @@ spring:
   batch:
     jdbc:
       initialize-schema: ALWAYS
-
+    job:
+      names: conditionalStepLogicJob #name을 별도로 주면 해당 JOB 이외는 실행되지 않는다.
 
   main:
     allow-bean-definition-overriding: true
