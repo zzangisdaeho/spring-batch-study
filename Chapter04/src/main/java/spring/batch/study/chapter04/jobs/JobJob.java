@@ -44,8 +44,8 @@ public class JobJob {
     public Tasklet updateStart() {
         return (contribution, chunkContext) -> {
             System.out.println("The start has been updated");
-			throw new IllegalStateException("에러 발생");
-//            return RepeatStatus.FINISHED;
+//			throw new IllegalStateException("에러 발생");
+            return RepeatStatus.FINISHED;
         };
     }
 

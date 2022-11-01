@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/Chapter04" />
+    <file type="web" url="file://$PROJECT_DIR$/Chapter06" />
     <file type="web" url="file://$PROJECT_DIR$/Chaptor05" />
   </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="corretto-17" project-jdk-type="JavaSDK" />
