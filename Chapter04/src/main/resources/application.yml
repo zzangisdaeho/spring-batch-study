@@ -8,7 +8,7 @@ spring:
     jdbc:
       initialize-schema: ALWAYS
     job:
-      names: conditionalStepLogicJob #name을 별도로 주면 해당 JOB 이외는 실행되지 않는다.
+      names: chunkBasedJob #name을 별도로 주면 해당 JOB 이외는 실행되지 않는다.
 #      enabled: false
 
   main:

@@ -1,7 +1,8 @@
 spring:
   batch:
     job:
-      enabled: false
+      enabled: true
+      names: transactionJob
     jdbc:
       initialize-schema: ALWAYS
   datasource:
@@ -9,3 +10,7 @@ spring:
     url: jdbc:mysql://localhost:3306/spring_batch
     username: root
     password: 1234
+  sql:
+    init:
+      mode: ALWAYS
+      platform: mysql

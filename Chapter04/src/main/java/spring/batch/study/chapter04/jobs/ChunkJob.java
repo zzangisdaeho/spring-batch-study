@@ -41,7 +41,7 @@ public class ChunkJob {
 
     private AtomicInteger chunkNum = new AtomicInteger(1);
 
-//    @Bean
+    @Bean
     public Job chunkBasedJob() {
         return this.jobBuilderFactory.get("chunkBasedJob")
                 .start(chunkStep())
