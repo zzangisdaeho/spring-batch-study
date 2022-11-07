@@ -17,7 +17,7 @@ public class Chapter06Application {
         List<String> realArgs = new ArrayList<>(Arrays.asList(args));
 
         realArgs.add("transactionFile=classpath:/input/transactionFile.csv");
-        realArgs.add("summaryFile=classpath:/out/summaryFile.csv");
+        realArgs.add("summaryFile=file:/Users/kimdaeho/study/spring-batch-study/Chapter06/src/main/resources/output/summaryFile.csv");
 //        SpringApplication.run(Chapter06Application.class, args);
         SpringApplication.run(Chapter06Application.class, realArgs.toArray(String[]::new));
     }

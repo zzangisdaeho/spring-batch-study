@@ -12,5 +12,14 @@ spring:
     password: 1234
   sql:
     init:
-      mode: ALWAYS
+      mode: NEVER
       platform: mysql
+
+#logging:
+#  level:
+#    org:
+#      springframework:
+#        jdbc:
+#          core:
+#            JdbcTemplate: debug
+#            StatementCreatorUtils: trace

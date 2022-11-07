@@ -41,7 +41,10 @@ public class RestApplication {
     public Step step1() {
         return this.stepBuilderFactory.get("step1")
                 .tasklet((stepContribution, chunkContext) -> {
+                    Thread.sleep(5000);
+
                     System.out.println("step 1 ran today!");
+
                     return RepeatStatus.FINISHED;
                 }).build();
     }
@@ -50,7 +53,7 @@ public class RestApplication {
     public static class JobLaunchingController {
 
         @Autowired
-        private JobLauncher jobLauncher;
+        private JobLauncher asyncJobLauncher;
 
         @Autowired
         private ApplicationContext context;
@@ -68,10 +71,8 @@ public class RestApplication {
                             .getNextJobParameters(job)
                             .toJobParameters();
 
-            return this.jobLauncher.run(job, jobParameters).getExitStatus();
-//			Job job = this.context.getBean(request.getName(), Job.class);
-//
-//			return this.jobLauncher.run(job, request.getJobParameters()).getExitStatus();
+//            return this.jobLauncher.run(job, jobParameters).getExitStatus();
+            return this.asyncJobLauncher.run(job, jobParameters).getExitStatus();
         }
     }
 
@@ -103,9 +104,5 @@ public class RestApplication {
             return new JobParametersBuilder(properties)
                     .toJobParameters();
         }
-    }
-
-    public static void main(String[] args) {
-        new SpringApplication(RestApplication.class).run(args);
     }
 }

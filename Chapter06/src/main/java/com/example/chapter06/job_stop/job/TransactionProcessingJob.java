@@ -83,7 +83,8 @@ public class TransactionProcessingJob {
                 .<Transaction, Transaction>chunk(10)
                 .reader(transactionReader())
                 .writer(transactionWriter(null))
-                .allowStartIfComplete(true)
+//                .startLimit(2)
+                .allowStartIfComplete(false)
                 .listener(transactionReader())
                 .build();
     }
@@ -179,14 +180,17 @@ public class TransactionProcessingJob {
 
     @Bean
     public Job transactionJob() {
+//        return this.jobBuilderFactory.get("transactionJob")
+//                .start(importTransactionFileStep())
+//                .on("STOPPED").stopAndRestart(importTransactionFileStep())
+//                .from(importTransactionFileStep()).on("*").to(applyTransactionsStep())
+//                .from(applyTransactionsStep()).next(generateAccountSummaryStep())
+//                .end()
+//                .build();
         return this.jobBuilderFactory.get("transactionJob")
                 .start(importTransactionFileStep())
-                .on("STOPPED").stopAndRestart(importTransactionFileStep())
-//                .from(importTransactionFileStep()).on("FAILED").stopAndRestart(importTransactionFileStep())
-//                .from(importTransactionFileStep()).on("ABANDONED").stopAndRestart(importTransactionFileStep())
-                .from(importTransactionFileStep()).on("*").to(applyTransactionsStep())
-                .from(applyTransactionsStep()).next(generateAccountSummaryStep())
-                .end()
+                .next(applyTransactionsStep())
+                .next(generateAccountSummaryStep())
                 .build();
     }
 }
